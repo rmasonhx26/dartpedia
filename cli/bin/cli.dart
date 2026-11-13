@@ -10,12 +10,20 @@ void main(List<String> arguments) {
     print('Dartpedia CLI version $version');
   } else if (arguments.first == 'search') { 
     // add new block
-    print('Search Command recognized');
+   // print('Search Command recognized');
+   final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
+   searchWikipedia(inputArgs);
+
   } else {
     printUsage();
   }
  // print('Hello world: ${cli.calculate()}!');
  //print('Bujisoft LLC!');
+}
+
+// search wikepedia
+void searchWikipedia(List<String> ? arguments) {
+  print('searchWikipedia received arguments: $arguments');
 }
 
 
