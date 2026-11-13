@@ -8,9 +8,18 @@ void main(List<String> arguments) {
     print('Hello, Dart');
   } else if (arguments.first == 'version') {
     print('Dartpedia CLI version $version');
+  } else {
+    printUsage();
   }
  // print('Hello world: ${cli.calculate()}!');
  //print('Bujisoft LLC!');
+}
+
+
+void printUsage() { // Add this new function
+  print(
+    "The following commands are valid: 'help', 'version', 'search <ARTICLE-TITLE>'"
+  );
 }
 
 
