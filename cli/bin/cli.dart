@@ -91,3 +91,9 @@ Looking up articles about "Django Ninja". Please wait
 Here ya go!
 (Pretend this is an article about "Django Ninja")
 mybuji_ai@Mac-Studio cli %  */
+
+
+// DART RUN COMMAND FOR PROJECT
+
+// run command --- dart run bin/cli.dart wikipedia ||  dart run bin/cli.dart wikipedia "Dart_(programming_language)"
+
