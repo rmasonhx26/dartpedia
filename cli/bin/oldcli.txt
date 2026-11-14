@@ -1,0 +1,94 @@
+/ add constant version
+const version = '0.0.1';
+
+void main(List<String> arguments) {
+  if (arguments.isEmpty || arguments.first == 'help') {
+    print('Hello, Dart');
+  } else if (arguments.first == 'version') {
+    print('Dartpedia CLI version $version');
+  } else if (arguments.first == 'wikipedia') {  // changed to wikepedia
+    // add new block
+   // print('Search Command recognized');
+   final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
+   searchWikipedia(inputArgs); // Call searchWikepedia -- no wait needed here for main
+
+  } else {
+    printUsage(); // catch all for unrecognized command
+  }
+ // print('Hello world: ${cli.calculate()}!');
+ //print('Bujisoft LLC!');
+}
+
+// search wikepedia
+void searchWikipedia(List<String>? arguments)  async { // Added 'async'
+  final String articleTitle;
+
+  // if user does not pass in arguments -- request title
+  if (arguments == null || arguments.isEmpty) {
+    print('Please provide an article title.');
+    //await input and provide default empty string if input is null
+    final inputFromStdin = stdin.readLineSync(); // read input withou the ?? fallback
+    if (inputFromStdin == null || inputFromStdin.isEmpty) {
+      print('No article title provided. Exiting.');
+      return; // Exit the function if no valid input
+    }
+
+    articleTitle = inputFromStdin;
+    
+    //print('searchWikipedia received arguments: $arguments');
+} else {
+  //otherwise,  join the arguments into a single string.
+  articleTitle = arguments.join(' ');
+}
+
+print('Looking up articles about "$articleTitle". Please wait');
+// remove temporary placeholder
+// print('Here ya go!');
+// print('(Pretend this is an article about "$articleTitle")');
+// Call the API and await the result
+var articleContent = await getWikepediaArticle(articleTitle);
+print(articleContent); // Print the full aarticle response (raw json for now)
+
+}
+void printUsage() { // Add this new function
+  print(
+    "The following commands are valid: 'help', 'version', 'search <ARTICLE-TITLE>'"
+  );
+}
+// retreiving api using future, await and response
+Future<String> getWikepediaArticle(String articleTitle) async {
+  // add code here for function signature
+  final url = Uri.https(
+    'en.wikipedia.org', // Wikepedia API domain
+    '/api/rest_v1/page/summary/$articleTitle', // API pathe for article summary
+
+  );
+  final response = await http.get(url); // make http requesst
+
+  if (response.statusCode == 200) {
+    return response.body; // return response body if successful
+  }
+
+  // return error message if request failed
+  return 'Error: Failed to fetch articl "$articleTitle". Status code: ${response.statusCode}';
+}
+
+
+// note dart run returns Hello, Dart
+// dart run bin.cli.dart version returns const version 
+/* 
+ybuji_ai@Mac-Studio cli % 
+mybuji_ai@Mac-Studio cli % dart bin/cli.dart search
+
+Please provide an article title.
+Django Ninja
+Looking up articles about "Django Ninja". Please wait
+Here ya go!
+(Pretend this is an article about "Django Ninja")
+mybuji_ai@Mac-Studio cli %  */
+
+
+// DART RUN COMMAND FOR PROJECT
+
+// run command --- dart run bin/cli.dart wikipedia ||  dart run bin/cli.dart wikipedia "Dart_(programming_language)"
+
